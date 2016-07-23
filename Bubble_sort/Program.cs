@@ -1,9 +1,10 @@
 ﻿namespace Bubble_sort
-{ 
+{
     using System;
     using System.Diagnostics;
+    using System.Linq;
 
-public class Program
+    public class Program
     {
        public static int[] Sort(int[] arr)
         {
@@ -27,27 +28,26 @@ public class Program
 
        public static void Main(string[] args)
         {
-            var time = Stopwatch.StartNew();
+           Random random = new Random();
 
-            int[] array = new int[100000];
+            const int N = 100000;
 
-            Random rand = new Random();     
-            
-            for (int x = 0; x < array.Length; x++)
+            int[] perm = Enumerable.Range(0, N).ToArray(); 
+
+            for (int i = N - 1; i >= 1; i--)
             {
-                array[x] = rand.Next(1, 100000);
+                int j = random.Next(i + 1);
+                int temp = perm[j];
+                perm[j] = perm[i];
+                perm[i] = temp;
             }
-
-           array = Sort(array);         
            
-            for (int i = 0; i < array.Length; i++) 
+           perm = Sort(perm);         
+           
+            for (int i = 0; i < perm.Length; i++) 
             {
-                Console.WriteLine(array[i]);
+                Console.WriteLine(perm[i]);
             }
-
-            time.Stop();
-
-            Console.WriteLine(time.Elapsed);
 
             Console.ReadKey();
         }
