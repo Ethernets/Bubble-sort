@@ -26,28 +26,37 @@
             return arr;
         }
 
+        public static TimeSpan Benchmark(int count)
+        {
+            int[] array = new int[count];
+
+            Random rand = new Random();
+
+            for (int x = 0; x < array.Length; x++)
+            {
+                array[x] = rand.Next(1, 500);
+            }
+
+            var time = Stopwatch.StartNew();
+
+            array = Sort(array);
+
+            time.Stop();
+
+            return time.Elapsed;
+        }
+
        public static void Main(string[] args)
         {
-           Random random = new Random();
+            Console.WriteLine(Benchmark(5));
 
-            const int N = 100000;
+            Console.WriteLine(Benchmark(100));
 
-            int[] perm = Enumerable.Range(0, N).ToArray(); 
+            Console.WriteLine(Benchmark(500));
 
-            for (int i = N - 1; i >= 1; i--)
-            {
-                int j = random.Next(i + 1);
-                int temp = perm[j];
-                perm[j] = perm[i];
-                perm[i] = temp;
-            }
-           
-           perm = Sort(perm);         
-           
-            for (int i = 0; i < perm.Length; i++) 
-            {
-                Console.WriteLine(perm[i]);
-            }
+            Console.WriteLine(Benchmark(10000));
+
+            Console.WriteLine(Benchmark(100000));
 
             Console.ReadKey();
         }
